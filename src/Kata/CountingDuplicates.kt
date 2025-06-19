@@ -3,6 +3,9 @@ package Kata
 import org.testng.Assert.assertEquals
 import org.testng.annotations.Test
 
+//best solution
+fun duplicateCount2(text: String) = text.groupBy(Char::lowercase).count { it.value.count() > 1 }
+
 fun duplicateCount(text: String): Int {
     return text.lowercase()
         .groupingBy { it }
