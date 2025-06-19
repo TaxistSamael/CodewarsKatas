@@ -4,14 +4,11 @@ import org.testng.Assert.assertEquals
 import org.testng.annotations.Test
 
 fun duplicateCount(text: String): Int {
-    val duplicateCount = HashMap<Char, Int>()
-    text.lowercase().forEach { char ->
-        if (text.count { char == it } > 1) {
-            val existingCount = duplicateCount[char] ?: 0
-            duplicateCount[char] = existingCount + 1
-        }
-    }
-    return duplicateCount.size
+    return text.lowercase()
+        .groupingBy { it }
+        .eachCount()
+        .filter { it.value > 1 }
+        .size
 }
 
 class CountingDuplicatesTest {
@@ -24,6 +21,11 @@ class CountingDuplicatesTest {
     @Test
     fun `abcdea returns one`() {
         assertEquals(1, duplicateCount("abcdea"))
+    }
+
+    @Test
+    fun `abcdeaB returns two`() {
+        assertEquals(duplicateCount("abcdeaB"), 2)
     }
 
     @Test
